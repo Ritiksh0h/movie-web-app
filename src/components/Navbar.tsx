@@ -1,7 +1,10 @@
+"use client"
 import Link from "next/link";
 import { Search, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserNav } from "./UserNav";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -12,8 +15,9 @@ const navItems = [
 ];
 
 export const Navbar: React.FC = () => {
+  const pathname = usePathname()
   return (
-    <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black/60 to-transparent">
+    <header className="fixed top-0 w-full z-50 bg-gradient-to-b from-black/80 to-transparent ">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="text-red-600 font-bold text-2xl mr-10" href="/">
@@ -23,7 +27,11 @@ export const Navbar: React.FC = () => {
             {navItems.map((item) => (
               <Link
                 key={item.name}
-                className="text-sm text-white hover:text-gray-300"
+                // className="text-sm text-white hover:text-gray-300"
+                className={cn(
+                  "transition-colors text-sm text-white hover:text-gray-300",
+                  pathname === item.href ? "text-white" : "text-white/70"
+                )}
                 href={item.href}
               >
                 {item.name}

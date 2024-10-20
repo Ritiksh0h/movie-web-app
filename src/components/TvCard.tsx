@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react"
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
 import {
   Play,
   Plus,
@@ -15,50 +15,50 @@ import {
   ThumbsUp,
   Volume2,
   VolumeOff,
-} from "lucide-react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+} from "lucide-react"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
-  Movie,
+  Tv,
   getImageUrl,
-  fetchMovieTrailer,
+  fetchTvShowTrailer,
   getGenreNames,
-} from "@/services/tmdbApi";
+} from "@/services/tmdbApi"
 
-interface MovieCardProps {
-  movie: Movie;
+interface TvShowCardProps {
+  tvShow: Tv
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
-  const videoRef = useRef<HTMLIFrameElement>(null);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+export default function TvShowCard({ tvShow }: TvShowCardProps) {
+  const [isHovered, setIsHovered] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
+  const [trailerUrl, setTrailerUrl] = useState<string | null>(null)
+  const videoRef = useRef<HTMLIFrameElement>(null)
+  const hoverTimeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     if (isHovered && !trailerUrl) {
-      fetchMovieTrailer(movie.id).then(setTrailerUrl);
+      fetchTvShowTrailer(tvShow.id).then(setTrailerUrl)
     }
-  }, [isHovered, movie.id, trailerUrl]);
+  }, [isHovered, tvShow.id, trailerUrl])
 
   useEffect(() => {
     if (isHovered && videoRef.current && trailerUrl) {
       videoRef.current.src = `${trailerUrl}?autoplay=1&mute=${
         isMuted ? 1 : 0
-      }&controls=0&modestbranding=1&loop=1`;
+      }&controls=0&modestbranding=1&loop=1`
     }
-  }, [isHovered, isMuted, trailerUrl]);
+  }, [isHovered, isMuted, trailerUrl])
 
   const handleMouseEnter = () => {
-    hoverTimeoutRef.current = setTimeout(() => setIsHovered(true), 500);
-  };
+    hoverTimeoutRef.current = setTimeout(() => setIsHovered(true), 500)
+  }
 
   const handleMouseLeave = () => {
-    clearTimeout(hoverTimeoutRef.current);
-    setIsHovered(false);
-  };
+    clearTimeout(hoverTimeoutRef.current)
+    setIsHovered(false)
+  }
 
   return (
     <div
@@ -66,23 +66,23 @@ export default function MovieCard({ movie }: MovieCardProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Card className="h-full w-full rounded overflow-hidden z-0">
+      <Card className="h-96 rounded overflow-hidden z-0">
         <Image
           height={350}
           width={250}
-          src={getImageUrl(movie.poster_path)}
-          alt={movie.title}
+          src={getImageUrl(tvShow.poster_path)}
+          alt={tvShow.name}
           className="w-full h-full object-cover"
         />
       </Card>
       {isHovered && (
-        <Card className="absolute inset-0 space-y-4 transition-opacity duration-300 w-[350px] h-min top-0 -left-5 right-0 bottom-0 z-50">
+        <Card className="absolute inset-0 space-y-4 transition-opacity duration-300 w-[350px] h-[386px] top-0 -left-5 right-0 bottom-0 z-50">
           <div className="relative">
             {trailerUrl ? (
               <iframe
                 width="350"
                 height="200"
-                title={`${movie.title} trailer`}
+                title={`${tvShow.name} trailer`}
                 src={trailerUrl}
                 ref={videoRef}
                 allow="autoplay; encrypted-media"
@@ -92,8 +92,8 @@ export default function MovieCard({ movie }: MovieCardProps) {
               <Image
                 height={350}
                 width={250}
-                src={getImageUrl(movie.backdrop_path)}
-                alt={movie.title}
+                src={getImageUrl(tvShow.backdrop_path)}
+                alt={tvShow.name}
                 className="w-full h-1/2 object-cover rounded-t-xl"
               />
             )}
@@ -110,18 +110,18 @@ export default function MovieCard({ movie }: MovieCardProps) {
               )}
             </Button>
           </div>
-          <CardHeader className="py-0 mb-0">
+          <CardHeader className="py-0">
             <div className="flex justify-between items-center">
               <CardTitle className="text-xl font-bold">
-                {movie.title}
+                {tvShow.name}
                 <span className="m-1 text-muted-foreground text-sm font-thin">
-                  ({new Date(movie.release_date).getFullYear()})
+                  ({new Date(tvShow.first_air_date).getFullYear()})
                 </span>
               </CardTitle>
             </div>
             <div className="flex items-center text-sm flex-wrap gap-2">
-              <Badge variant="outline">{movie.vote_average.toFixed(1)}</Badge>
-              {getGenreNames(movie.genre_ids)
+              <Badge variant="outline">{tvShow.vote_average.toFixed(1)}</Badge>
+              {getGenreNames(tvShow.genre_ids)
                 .slice(0, 3)
                 .map((genre) => (
                   <Badge key={genre} variant="secondary">
@@ -130,11 +130,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
                 ))}
             </div>
             <CardDescription className="text-sm line-clamp-2">
-              {movie.overview}
+              {tvShow.overview}
             </CardDescription>
           </CardHeader>
 
-          <CardFooter className="flex gap-2 px-4 py-2">
+          <CardFooter className="flex gap-2 px-4">
             <Button variant="ghost" size="icon" aria-label="Play">
               <Play className="h-6 w-6" />
             </Button>
@@ -151,5 +151,5 @@ export default function MovieCard({ movie }: MovieCardProps) {
         </Card>
       )}
     </div>
-  );
+  )
 }

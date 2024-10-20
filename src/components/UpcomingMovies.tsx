@@ -1,7 +1,7 @@
 import { Calendar } from "lucide-react";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
-import { Movie, getImageUrl } from "@/services/tmdbApi";
+import { Movie, getGenreNames, getImageUrl } from "@/services/tmdbApi";
 
 interface UpcomingMoviesProps {
   movies: Movie[];
@@ -25,9 +25,8 @@ export const UpcomingMovies: React.FC<UpcomingMoviesProps> = ({ movies }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-lg" />
               <div className="absolute bottom-2 left-4 space-y-1">
                 <h3 className="font-bold text-lg text-white">{movie.title}</h3>
-                {/* <p className="text-sm text-gray-400 mb-2">Sci-Fi, Thriller</p> */}
                 <div className="flex gap-2">
-                  {movie.genre_ids.map((g, index) => (
+                  {getGenreNames(movie.genre_ids).slice(0, 3).map((g, index) => (
                     <Badge key={index} variant={"secondary"}>
                       {g}
                     </Badge>
