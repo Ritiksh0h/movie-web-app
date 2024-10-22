@@ -22,11 +22,11 @@ const categories = [
 ];
 
 export default function MoviesPage() {
-  const [category, setCategory] = useState("trending");
-  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState<string>("trending");
+  const [page, setPage] = useState<number>(1);
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchMovies = useCallback(async (category: string, page: number) => {
@@ -109,15 +109,17 @@ export default function MoviesPage() {
           </TabsList>
           {categories.map((cat) => (
             <TabsContent key={cat.value} value={cat.value}>
-              <MediaList
-                media={movies}
-                totalPages={totalPages}
-                currentPage={page}
-                onPageChange={handlePageChange}
-                mediaType="movie"
-                isLoading={isLoading}
-                error={error || undefined}
-              />
+              <div>
+                <MediaList
+                  media={movies}
+                  totalPages={totalPages}
+                  currentPage={page}
+                  onPageChange={handlePageChange}
+                  mediaType="movie"
+                  isLoading={isLoading}
+                  error={error || undefined}
+                />
+              </div>
             </TabsContent>
           ))}
         </Tabs>

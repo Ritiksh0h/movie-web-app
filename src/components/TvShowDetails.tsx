@@ -15,6 +15,8 @@ import {
   TvIcon,
 } from "lucide-react";
 import { TvShowDetailsProps } from "@/app/types";
+import { fetchRecommendations, fetchSimilar } from "@/services/tmdbApi";
+import { MediaGridSection } from "./MediaGridSection";
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -25,6 +27,8 @@ const formatDate = (dateString: string) => {
 };
 
 const TVShowDetails: React.FC<TvShowDetailsProps> = async ({ tv }) => {
+  const recommendations = await fetchRecommendations(tv.id, "tv");
+  const similar = await fetchSimilar(tv.id, "tv");
   return (
     <div className="container mx-auto px-4 py-4 mt-10">
       <div className="relative mb-4 rounded-xl overflow-hidden">
@@ -305,6 +309,25 @@ const TVShowDetails: React.FC<TvShowDetailsProps> = async ({ tv }) => {
             </Button>
           </div>
         </div>
+      </div>
+      <div className="space-y-4 mt-4">
+        <Separator />
+        {similar !== null && (
+          <MediaGridSection
+            title="Similar"
+            media={similar.results}
+            contentMediaType={false}
+            mediaType="tv"
+          />
+        )}
+        {recommendations !== null && (
+          <MediaGridSection
+            title="Recommended"
+            media={recommendations.results}
+            contentMediaType={true}
+            mediaType="tv"
+          />
+        )}
       </div>
     </div>
   );

@@ -101,11 +101,11 @@ export default function MediaCard({ item, type }: MediaCardProps) {
 
   return (
     <div
-      className="relative w-[250px]"
+      className="relative w-[100%]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Card className="w-full h-[375px] rounded-lg overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105">
+      <Card className="w-full h-[100%] rounded-lg overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105">
         <CardContent className="p-0 h-full">
           <Image
             src={getImageUrl(item.poster_path)}
@@ -117,7 +117,7 @@ export default function MediaCard({ item, type }: MediaCardProps) {
         </CardContent>
       </Card>
       {isHovered && (
-        <Card className="absolute top-0 left-0 w-[300px] h-auto z-50 shadow-xl">
+        <Card className="absolute top-0 -left-5 w-[300px] h-auto z-50 shadow-xl">
           <CardContent className="p-0">
             <div className="relative">
               {trailerUrl ? (

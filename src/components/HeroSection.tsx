@@ -129,7 +129,7 @@ const MovieCarouselCard: React.FC<MovieCarouselCardPropt> = ({ movie }) => {
               size="lg"
               variant="secondary"
             >
-              <Link href={`/movies/${movie.id}`} className="flex gap-2 items-center" >
+              <Link href={`/movie/${movie.id}`} className="flex gap-2 items-center" >
                 <Info size={28} className="mr-2" />
                 More Info
               </Link>

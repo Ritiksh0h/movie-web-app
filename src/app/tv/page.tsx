@@ -20,11 +20,11 @@ const categories = [
 ];
 
 export default function TvPage() {
-  const [category, setCategory] = useState("trending");
-  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState<string>("trending");
+  const [page, setPage] = useState<number>(1);
   const [tv, setTv] = useState<Tv[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchTv = useCallback(async (category: string, page: number) => {

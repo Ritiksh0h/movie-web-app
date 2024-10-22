@@ -9,6 +9,7 @@ import {
   IdSearchResult,
   MovieDetailsProps,
   genres,
+  TvShowDetailsProps,
 } from "@/app/types";
 const API_KEY = "daa8c89ea5a3b2f19e6cd81aacc2f71f";
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -195,7 +196,7 @@ export const fetchMediaTrailer = async (
 export const fetchById = async (
   id: number,
   media_type: "movie" | "tv"
-): Promise<MovieDetailsProps | null> => {
+): Promise<MovieDetailsProps | TvShowDetailsProps | null> => {
   try {
     const response = await fetch(
       `${BASE_URL}/${media_type}/${id}?api_key=${API_KEY}&append_to_response=videos%2Cimages&language=en-US`
@@ -206,6 +207,8 @@ export const fetchById = async (
         `Failed to fetch ${media_type} by ID, status: ${response.status}`
       );
     }
+
+    // console.log(await response.json());
 
     return await response.json();
   } catch (error) {

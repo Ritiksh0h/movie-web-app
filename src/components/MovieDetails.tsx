@@ -277,7 +277,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = async ({ movie }) => {
             title="Similar"
             media={similar.results}
             contentMediaType={false}
-            mediaType="tv"
+            mediaType="movie"
           />
         )}
         {recommendations !== null && (
@@ -285,7 +285,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = async ({ movie }) => {
             title="Recommended"
             media={recommendations.results}
             contentMediaType={true}
-            mediaType="tv"
+            mediaType="movie"
           />
         )}
       </div>

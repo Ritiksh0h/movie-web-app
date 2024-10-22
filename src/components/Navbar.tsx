@@ -9,7 +9,7 @@ import SearchPopup from "./search";
 
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "TV Shows", href: "/tv-shows" },
+  { name: "TV Shows", href: "/tv" },
   { name: "Movies", href: "/movie" },
   { name: "New & Popular", href: "/new-and-popular" },
   { name: "My List", href: "/my-list" },
