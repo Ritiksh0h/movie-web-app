@@ -11,8 +11,8 @@ import { MediaGridSection } from "@/components/MediaGridSection";
 import { HeroSection } from "@/components/HeroSection";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0; //Very important
-export const fetchCache = "force-no-store";
+export const revalidate = false; //Very important
+export const fetchCache = "default-cache";
 
 export default async function Page() {
   // Fetch all the data and handle possible errors by returning empty arrays if needed

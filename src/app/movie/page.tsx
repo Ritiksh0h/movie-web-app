@@ -14,8 +14,8 @@ import { motion } from "framer-motion";
 import { Movie } from "../types";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0; //Very important
-export const fetchCache = "force-no-store";
+export const revalidate = false; //Very important
+export const fetchCache = "default-cache";
 
 const categories = [
   { value: "trending", label: "Trending" },

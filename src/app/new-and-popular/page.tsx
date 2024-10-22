@@ -7,8 +7,8 @@ import { fetchTrending } from "@/services/tmdbApi";
 import { Movie, Tv, MovieResponse, TvResponse } from "../types";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0; //Very important
-export const fetchCache = "force-no-store";
+export const revalidate = false; //Very important
+export const fetchCache = "default-cache";
 
 export default function Page() {
   // State for movies and TV shows
