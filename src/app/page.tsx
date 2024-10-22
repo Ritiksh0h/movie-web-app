@@ -11,7 +11,7 @@ import { MediaGridSection } from "@/components/MediaGridSection";
 import { HeroSection } from "@/components/HeroSection";
 
 export const dynamic = "force-dynamic";
-export const revalidate = false; //Very important
+// export const revalidate = false; //Very important
 export const fetchCache = "default-cache";
 
 export default async function Page() {
