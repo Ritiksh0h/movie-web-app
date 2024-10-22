@@ -12,6 +12,10 @@ import { motion } from "framer-motion";
 import MediaList from "@/components/media-list";
 import { Tv } from "../types";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; //Very important
+export const fetchCache = "force-no-store";
+
 const categories = [
   { value: "trending", label: "Trending" },
   { value: "onAir", label: "On the Air" },

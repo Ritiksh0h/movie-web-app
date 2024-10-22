@@ -1,105 +1,132 @@
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import {
-  FaFacebook,
-  FaDiscord,
-  FaTwitter,
-  FaGithub,
-  FaDribbble,
-} from "react-icons/fa";
+import { FaTwitter, FaGithub, FaInstagram, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
+import { siteConfig } from "@/config/siteConfig";
 
 const footerLinks = [
   {
-    title: "Resources",
+    title: "Explore",
     links: [
-      { name: "Flowbite", href: "https://flowbite.com/" },
-      { name: "Tailwind CSS", href: "https://tailwindcss.com/" },
+      { name: "Movies", href: "/movie" },
+      { name: "TV Shows", href: "/" },
+      { name: "Trailers", href: "/" },
+      { name: "Top Rated", href: "/" },
     ],
   },
   {
-    title: "Follow us",
+    title: "Company",
     links: [
-      { name: "Github", href: "https://github.com/themesberg/flowbite" },
-      { name: "Discord", href: "https://discord.gg/4eeurUVvTy" },
+      { name: "About Us", href: "/" },
+      { name: "Careers", href: "/" },
+      { name: "Contact", href: "/" },
+      { name: "Press", href: "/" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms & Conditions", href: "#" },
+      { name: "Privacy Policy", href: "/" },
+      { name: "Terms of Service", href: "/" },
+      { name: "Cookie Policy", href: "/" },
     ],
   },
 ];
 
 const socialIcons = [
-  { Icon: FaFacebook, name: "Facebook page" },
-  { Icon: FaDiscord, name: "Discord community" },
-  { Icon: FaTwitter, name: "Twitter page" },
-  { Icon: FaGithub, name: "GitHub account" },
-  { Icon: FaDribbble, name: "Dribbble account" },
+  { Icon: FaTwitter, name: "Twitter", href: siteConfig.links.twitter },
+  { Icon: FaGithub, name: "GitHub", href: siteConfig.links.github },
+  { Icon: FaInstagram, name: "Instagram", href: siteConfig.links.instagram },
+  { Icon: FaYoutube, name: "YouTube", href: siteConfig.links.youtube },
 ];
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="mx-20">
-      <div className="w-full p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-            <Link href="https://flowbite.com/" className="flex items-center">
+    <footer className="">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="space-y-8 xl:col-span-1">
+            <Link href="/" className="flex items-center space-x-2">
               <Image
-                src="/placeholder.svg"
-                width={100}
-                height={100}
-                className="h-8 me-3"
-                alt="FlowBite Logo"
+                src="/favicon-32x32.png"
+                width={40}
+                height={40}
+                alt={`${siteConfig.name} logo`}
               />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap">
-                Flowbite
+              <span className="text-red-600 font-bold text-2xl">
+                {siteConfig.name}
               </span>
             </Link>
+
+            <div className="flex space-x-6">
+              {socialIcons.map(({ Icon, name, href }) => (
+                <Link
+                  key={name}
+                  href={href}
+                  className="text-muted-foreground/80 hover:text-muted-foreground/60 "
+                >
+                  <span className="sr-only">{name}</span>
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-            {footerLinks.map((column) => (
-              <div key={column.title}>
-                <h2 className="mb-6 text-sm font-semibold uppercase">
-                  {column.title}
-                </h2>
-                <ul className="text-muted-foreground font-medium">
-                  {column.links.map((link) => (
-                    <li key={link.name} className="mb-4">
-                      <Link href={link.href} className="hover:underline">
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              {footerLinks.slice(0, 2).map((column) => (
+                <div key={column.title}>
+                  <h3 className="text-base font-medium ">{column.title}</h3>
+                  <ul className="mt-4 space-y-4">
+                    {column.links.map((link) => (
+                      <li key={link.name}>
+                        <Link
+                          href={link.href}
+                          className="text-base text-muted-foreground/80 hover:text-muted-foreground/60"
+                        >
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              {footerLinks.slice(2).map((column) => (
+                <div key={column.title}>
+                  <h3 className="text-base font-medium ">{column.title}</h3>
+                  <ul className="mt-4 space-y-4">
+                    {column.links.map((link) => (
+                      <li key={link.name}>
+                        <Link
+                          href={link.href}
+                          className="text-base text-muted-foreground/80 hover:text-muted-foreground/60"
+                        >
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <Separator className="my-6 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-muted-foreground sm:text-center">
-            © 2023{" "}
-            <Link href="https://flowbite.com/" className="hover:underline">
-              Flowbite™
+        <Separator className="mt-8 border-muted-foreground/40" />
+        <div className="mt-8 flex flex-col items-center justify-between sm:flex-row">
+          <p className="text-base text-gray-400 dark:text-gray-500">
+            &copy; {new Date().getFullYear()} {siteConfig.creator.name}. All
+            rights reserved.
+          </p>
+          <p className="mt-4 text-base text-muted-foreground/80 sm:mt-0">
+            Created by{" "}
+            <Link
+              href={siteConfig.creator.portfolio}
+              className="font-medium underline"
+            >
+              {siteConfig.creator.name}
             </Link>
-            . All Rights Reserved.
-          </span>
-          <div className="flex mt-4 sm:justify-center sm:mt-0">
-            {socialIcons.map(({ Icon, name }) => (
-              <Link
-                key={name}
-                href="#"
-                className="text-muted-foreground hover:text-gray-900 ms-5"
-              >
-                <Icon />
-                <span className="sr-only">{name}</span>
-              </Link>
-            ))}
-          </div>
+          </p>
         </div>
       </div>
     </footer>

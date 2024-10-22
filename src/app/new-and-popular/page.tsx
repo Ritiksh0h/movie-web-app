@@ -6,6 +6,10 @@ import MediaList from "@/components/media-list";
 import { fetchTrending } from "@/services/tmdbApi";
 import { Movie, Tv, MovieResponse, TvResponse } from "../types";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; //Very important
+export const fetchCache = "force-no-store";
+
 export default function Page() {
   // State for movies and TV shows
   const [movies, setMovies] = useState<Movie[]>([]);

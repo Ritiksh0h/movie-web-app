@@ -10,6 +10,10 @@ import { UpcomingMovies } from "@/components/UpcomingMovies";
 import { MediaGridSection } from "@/components/MediaGridSection";
 import { HeroSection } from "@/components/HeroSection";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; //Very important
+export const fetchCache = "force-no-store";
+
 export default async function Page() {
   // Fetch all the data and handle possible errors by returning empty arrays if needed
   const nowPlayingMovies = (await fetchNowPlayingMovies()) || { results: [] };
@@ -27,7 +31,7 @@ export default async function Page() {
       ) : (
         <p className="text-center py-8">No Now Playing Movies Available</p>
       )}
-      
+
       <Suspense fallback={<MediaGridsSkeleton />}>
         {popularMovies.results.length > 0 && (
           <MediaGridSection
@@ -37,7 +41,7 @@ export default async function Page() {
             contentMediaType={false}
           />
         )}
-        
+
         {topMovies.results.length > 0 && (
           <MediaGridSection
             title="Top Rated Movies"

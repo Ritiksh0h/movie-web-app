@@ -50,7 +50,6 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
     return mediaType || "movie";
   };
 
-
   return (
     <section className="py-4 container mx-auto px-4">
       <div className="flex items-center justify-between mb-4">
@@ -76,7 +75,7 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
           </Button>
         </div>
       </div>
-      <div className="relative " ref={containerRef}>
+      <div className="relative overflow-x-hidden h-[400px]" ref={containerRef}>
         <div
           className="flex transition-transform duration-300 ease-in-out gap-2"
           style={{ transform: `translateX(${translateX}px)` }}
@@ -85,10 +84,7 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
             media.map((item) => (
               <div key={item.id} className="w-1/5 flex-shrink-0 px-2">
                 {contentMediaType}
-                <MediaCard
-                  item={item}
-                  type={getMediaType(item)} 
-                />
+                <MediaCard item={item} type={getMediaType(item)} />
               </div>
             ))
           ) : (
