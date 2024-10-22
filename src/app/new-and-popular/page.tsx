@@ -28,11 +28,11 @@ export default function Page() {
     setIsLoadingMovies(true);
     setMovieError(null);
     try {
-      const response: MovieResponse | null = await fetchTrending(
+      const response: MovieResponse | null = (await fetchTrending(
         "day",
         "movie",
         moviePage
-      );
+      )) as MovieResponse | null;
       if (response) {
         setMovies(response.results);
         setMovieTotalPages(response.total_pages);
@@ -52,11 +52,11 @@ export default function Page() {
     setIsLoadingTv(true);
     setTvError(null);
     try {
-      const response: TvResponse | null = await fetchTrending(
+      const response: TvResponse | null = (await fetchTrending(
         "day",
         "tv", // Correct media type for TV shows
         tvPage
-      );
+      )) as TvResponse | null;
       if (response) {
         setTvShows(response.results);
         setTvTotalPages(response.total_pages);

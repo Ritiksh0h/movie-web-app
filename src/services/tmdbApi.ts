@@ -11,8 +11,8 @@ import {
   genres,
   TvShowDetailsProps,
 } from "@/app/types";
-const API_KEY = "daa8c89ea5a3b2f19e6cd81aacc2f71f";
-const BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = process.env.TMDB_API_KEY;
+const BASE_URL = process.env.TMDB_BASE_URL;
 
 export const fetchPopular = async (
   media_type: "movie" | "tv",

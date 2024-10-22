@@ -48,8 +48,10 @@ export default function TvPage() {
         default:
           throw new Error("Invalid category");
       }
-      setTv(result.results);
-      setTotalPages(result.total_pages);
+      if (result !== null) {
+        setTv(result.results as Tv[]);
+        setTotalPages(result.total_pages);
+      }
     } catch (error) {
       console.error("Error fetching TV shows:", error);
       setError("Failed to fetch TV shows. Please try again later.");

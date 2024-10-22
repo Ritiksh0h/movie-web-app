@@ -53,8 +53,10 @@ export default function MoviesPage() {
         default:
           throw new Error("Invalid category");
       }
-      setMovies(result.results);
-      setTotalPages(result.total_pages);
+      if (result !== null) {
+        setMovies(result.results as Movie[]);
+        setTotalPages(result.total_pages);
+      }
     } catch (error) {
       console.error("Error fetching movies:", error);
       setError("Failed to fetch movies. Please try again later.");

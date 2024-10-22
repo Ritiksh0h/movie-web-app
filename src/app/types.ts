@@ -115,161 +115,157 @@ export interface IdSearchResult {
   movie_results: MovieItem[];
   tv_results: TVItem[];
   person_results: PersonItem[];
-  tv_episode_results: any[]; // Add specific type if needed
-  tv_season_results: any[]; // Add specific type if needed
+  tv_episode_results: object[]; // Add specific type if needed
+  tv_season_results: object[]; // Add specific type if needed
 }
 
 export interface MovieDetailsProps {
-  movie: {
-    adult: boolean;
-    backdrop_path: string;
-    belongs_to_collection: {
-      id: number;
-      name: string;
-      poster_path: string;
-      backdrop_path: string;
-    }[];
-    budget: number;
-    genres: {
-      id: number;
-      name: string;
-    }[];
-    homepage: string;
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: {
     id: number;
-    imdb_id: string;
-    origin_country: string[];
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
+    name: string;
     poster_path: string;
-    production_companies: {
-      id: number;
-      logo_path: string;
-      name: string;
-      origin_country: string;
-    }[];
-    production_countries: {
+    backdrop_path: string;
+  }[];
+  budget: number;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  origin_country: string[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: {
+    id: number;
+    logo_path: string;
+    name: string;
+    origin_country: string;
+  }[];
+  production_countries: {
+    iso_3166_1: string;
+    name: string;
+  }[];
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  spoken_languages: {
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: false;
+  vote_average: number;
+  vote_count: number;
+  videos: {
+    results: {
+      iso_639_1: string;
       iso_3166_1: string;
       name: string;
+      key: string;
+      site: "YouTube";
+      size: string;
+      type: "Featurette";
+      official: true;
+      published_at: string;
+      id: string;
     }[];
-    release_date: string;
-    revenue: number;
-    runtime: number;
-    spoken_languages: {
-      english_name: string;
-      iso_639_1: string;
-      name: string;
-    }[];
-    status: string;
-    tagline: string;
-    title: string;
-    video: false;
-    vote_average: number;
-    vote_count: number;
-    videos: {
-      results: {
-        iso_639_1: string;
-        iso_3166_1: string;
-        name: string;
-        key: string;
-        site: "YouTube";
-        size: string;
-        type: "Featurette";
-        official: true;
-        published_at: string;
-        id: string;
-      }[];
-    };
-    images: {
-      backdrops: [];
-      logos: [];
-      posters: [];
-    };
+  };
+  images: {
+    backdrops: [];
+    logos: [];
+    posters: [];
   };
 }
 
 export interface TvShowDetailsProps {
-  tv: {
+  id: number;
+  name: string;
+  tagline: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  first_air_date: string;
+  last_air_date: string;
+  episode_run_time: number[];
+  number_of_seasons: number;
+  number_of_episodes: number;
+  vote_average: number;
+  vote_count: number;
+  status: string;
+  type: string;
+  genres: Array<{
     id: number;
     name: string;
-    tagline: string;
+  }>;
+  created_by: Array<{
+    id: number;
+    name: string;
+    profile_path: string | null;
+  }>;
+  networks: Array<{
+    id: number;
+    name: string;
+    logo_path: string | null;
+  }>;
+  production_companies: Array<{
+    id: number;
+    name: string;
+    logo_path: string | null;
+  }>;
+  production_countries: Array<{
+    iso_3166_1: string;
+    name: string;
+  }>;
+  spoken_languages: Array<{
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }>;
+  homepage: string;
+  last_episode_to_air: {
+    id: number;
+    name: string;
+    overview: string;
+    air_date: string;
+    episode_number: number;
+    season_number: number;
+  } | null;
+  next_episode_to_air: {
+    id: number;
+    name: string;
+    overview: string;
+    air_date: string;
+    episode_number: number;
+    season_number: number;
+  } | null;
+  seasons: Array<{
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
     overview: string;
     poster_path: string;
-    backdrop_path: string;
-    first_air_date: string;
-    last_air_date: string;
-    episode_run_time: number[];
-    number_of_seasons: number;
-    number_of_episodes: number;
-    vote_average: number;
-    vote_count: number;
-    status: string;
-    type: string;
-    genres: Array<{
-      id: number;
+    season_number: number;
+  }>;
+  videos: {
+    results: Array<{
+      id: string;
+      key: string;
       name: string;
+      site: string;
+      type: string;
+      official: boolean;
+      published_at: string;
     }>;
-    created_by: Array<{
-      id: number;
-      name: string;
-      profile_path: string | null;
-    }>;
-    networks: Array<{
-      id: number;
-      name: string;
-      logo_path: string | null;
-    }>;
-    production_companies: Array<{
-      id: number;
-      name: string;
-      logo_path: string | null;
-    }>;
-    production_countries: Array<{
-      iso_3166_1: string;
-      name: string;
-    }>;
-    spoken_languages: Array<{
-      english_name: string;
-      iso_639_1: string;
-      name: string;
-    }>;
-    homepage: string;
-    last_episode_to_air: {
-      id: number;
-      name: string;
-      overview: string;
-      air_date: string;
-      episode_number: number;
-      season_number: number;
-    } | null;
-    next_episode_to_air: {
-      id: number;
-      name: string;
-      overview: string;
-      air_date: string;
-      episode_number: number;
-      season_number: number;
-    } | null;
-    seasons: Array<{
-      air_date: string;
-      episode_count: number;
-      id: number;
-      name: string;
-      overview: string;
-      poster_path: string;
-      season_number: number;
-    }>;
-    videos: {
-      results: Array<{
-        id: string;
-        key: string;
-        name: string;
-        site: string;
-        type: string;
-        official: boolean;
-        published_at: string;
-      }>;
-    };
   };
 }

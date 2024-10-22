@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { searchTMDB, } from "@/services/tmdbApi";
+import { searchTMDB } from "@/services/tmdbApi";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -30,7 +30,7 @@ const SearchPopup = () => {
     setIsLoading(true);
     try {
       const data = await searchTMDB(searchQuery);
-      if ("results" in data) {
+      if (data && "results" in data) {
         setResults(data.results);
       }
     } catch (error) {
@@ -88,7 +88,9 @@ const SearchPopup = () => {
                   <div className="flex">
                     <Image
                       src={`https://image.tmdb.org/t/p/w92${
-                        item.poster_path || item.profile_path
+                        item.media_type === "person"
+                          ? (item as PersonItem).profile_path
+                          : (item as MovieItem | TVItem).poster_path
                       }`}
                       alt={item.title || item.name || "Media"}
                       width={92}

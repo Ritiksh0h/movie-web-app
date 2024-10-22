@@ -27,7 +27,7 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const MovieDetails: React.FC<MovieDetailsProps> = async ({ movie }) => {
+async function MovieDetails({ movie }: { movie: MovieDetailsProps }) {
   const recommendations = await fetchRecommendations(movie.id, "movie");
   const similar = await fetchSimilar(movie.id, "movie");
 
@@ -291,10 +291,10 @@ const MovieDetails: React.FC<MovieDetailsProps> = async ({ movie }) => {
       </div>
     </div>
   );
-};
+}
 
 const VideoGrid: React.FC<{
-  videos: MovieDetailsProps["movie"]["videos"]["results"];
+  videos: MovieDetailsProps["videos"]["results"];
 }> = ({ videos }) => (
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {videos.map((video) => (

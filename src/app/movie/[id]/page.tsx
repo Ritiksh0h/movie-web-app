@@ -1,3 +1,4 @@
+import { MovieDetailsProps } from "@/app/types";
 import MovieDetails from "@/components/MovieDetails";
 import MediaNotFound from "@/components/media-not-found";
 import MovieDetailsSkeleton from "@/components/movie-details-skeleton";
@@ -14,7 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Suspense fallback={<MovieDetailsSkeleton />}>
       <div>
-        <MovieDetails movie={movie} />
+        <MovieDetails movie={movie as MovieDetailsProps} />
       </div>
     </Suspense>
   );

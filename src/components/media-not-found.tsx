@@ -20,10 +20,10 @@ export default function MediaNotFound({ isMovie }: MediaNotFoundProps) {
           </div>
           <h1 className="text-4xl font-bold text-gray-900">{mediaType} Not Found</h1>
           <p className="text-xl text-gray-600">
-            Oops! We couldn't find the {mediaType.toLowerCase()} you're looking for.
+            Oops! We couldn&apos;t find the {mediaType.toLowerCase()} you&apos;re looking for.
           </p>
           <p className="text-gray-500">
-            The {mediaType.toLowerCase()} might have been removed or doesn't exist in our database.
+            The {mediaType.toLowerCase()} might have been removed or doesn&apos;t exist in our database.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">

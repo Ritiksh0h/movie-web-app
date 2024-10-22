@@ -43,6 +43,14 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
     );
   };
 
+  const getMediaType = (item: Movie | Tv): "movie" | "tv" => {
+    if (contentMediaType && item.media_type) {
+      return item.media_type;
+    }
+    return mediaType || "movie";
+  };
+
+
   return (
     <section className="py-4 container mx-auto px-4">
       <div className="flex items-center justify-between mb-4">
@@ -68,7 +76,7 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
           </Button>
         </div>
       </div>
-      <div className="relative overflow-hidden" ref={containerRef}>
+      <div className="relative " ref={containerRef}>
         <div
           className="flex transition-transform duration-300 ease-in-out gap-2"
           style={{ transform: `translateX(${translateX}px)` }}
@@ -79,7 +87,7 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
                 {contentMediaType}
                 <MediaCard
                   item={item}
-                  type={contentMediaType ? media.media_type : mediaType}
+                  type={getMediaType(item)} 
                 />
               </div>
             ))
