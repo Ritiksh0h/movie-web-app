@@ -120,25 +120,27 @@ export default function MediaCard({ item, type }: MediaCardProps) {
         <Card className="absolute top-0 -left-5 w-[300px] h-auto z-50 shadow-xl">
           <CardContent className="p-0">
             <div className="relative">
-              {trailerUrl ? (
-                <iframe
-                  width="300"
-                  height="169"
-                  title={`${title} trailer`}
-                  src={trailerUrl}
-                  ref={videoRef}
-                  allow="autoplay; encrypted-media"
-                  className="rounded-t-lg"
-                ></iframe>
-              ) : (
-                <Image
-                  src={getImageUrl(item.backdrop_path)}
-                  alt={title}
-                  width={300}
-                  height={169}
-                  className="w-full object-cover rounded-t-lg"
-                />
-              )}
+              <div>
+                {trailerUrl ? (
+                  <iframe
+                    width="300"
+                    height="169"
+                    title={`${title} trailer`}
+                    src={trailerUrl}
+                    ref={videoRef}
+                    allow="autoplay; encrypted-media"
+                    className="rounded-t-lg"
+                  ></iframe>
+                ) : (
+                  <Image
+                    src={getImageUrl(item.backdrop_path)}
+                    alt={title}
+                    width={300}
+                    height={169}
+                    className="w-full object-cover rounded-t-lg"
+                  />
+                )}
+              </div>
               <Button
                 className="absolute bottom-2 left-2"
                 size="icon"

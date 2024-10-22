@@ -17,6 +17,7 @@ import {
 import { TvShowDetailsProps } from "@/app/types";
 import { fetchRecommendations, fetchSimilar } from "@/services/tmdbApi";
 import { MediaGridSection } from "./MediaGridSection";
+import Link from "next/link";
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -302,10 +303,10 @@ async function TVShowDetails({ tv }: { tv: TvShowDetailsProps }) {
 
           <div className="flex flex-col gap-4">
             <Button asChild variant="default">
-              <a href={tv.homepage} target="_blank" rel="noopener noreferrer">
+              <Link href={tv.homepage} target="_blank" rel="noopener noreferrer">
                 <GlobeIcon className="w-4 h-4 mr-2" />
                 Official Website
-              </a>
+              </Link>
             </Button>
           </div>
         </div>
@@ -353,14 +354,14 @@ const VideoGrid: React.FC<{
               size="icon"
               className="rounded-full"
             >
-              <a
+              <Link
                 href={`https://www.youtube.com/watch?v=${video.key}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <PlayCircleIcon className="w-12 h-12" />
                 <span className="sr-only">Play {video.name}</span>
-              </a>
+              </Link>
             </Button>
           </div>
         </div>

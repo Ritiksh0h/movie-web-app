@@ -104,19 +104,21 @@ export default function TvPage() {
               </TabsTrigger>
             ))}
           </TabsList>
-          {categories.map((cat) => (
-            <TabsContent key={cat.value} value={cat.value}>
-              <MediaList
-                media={tv}
-                totalPages={totalPages}
-                currentPage={page}
-                onPageChange={handlePageChange}
-                mediaType="tv"
-                isLoading={isLoading}
-                error={error || undefined}
-              />
-            </TabsContent>
-          ))}
+          <>
+            {categories.map((cat) => (
+              <TabsContent key={cat.value} value={cat.value}>
+                <MediaList
+                  media={tv}
+                  totalPages={totalPages}
+                  currentPage={page}
+                  onPageChange={handlePageChange}
+                  mediaType="tv"
+                  isLoading={isLoading}
+                  error={error || undefined}
+                />
+              </TabsContent>
+            ))}
+          </>
         </Tabs>
       </div>
     </main>

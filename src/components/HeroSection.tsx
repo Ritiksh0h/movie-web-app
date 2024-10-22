@@ -20,8 +20,6 @@ import { useEffect, useRef, useState } from "react";
 import { Movie } from "@/app/types";
 import Link from "next/link";
 
-// ?height=800&width=1600&text=Inception
-
 interface HeroSectionProps {
   movies: Movie[];
 }

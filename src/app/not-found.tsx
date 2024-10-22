@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowLeft, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function NotFound() {
   const router = useRouter();
@@ -21,15 +22,19 @@ export default function NotFound() {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Button asChild variant="default">
-            <Link href="/" className="flex items-center justify-center">
-              <Home className="mr-2 h-4 w-4" />
-              Go to Homepage
-            </Link>
-          </Button>
+          <Link
+            href="/"
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "flex items-center justify-center"
+            )}
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Go to Homepage
+          </Link>
+
           <Button
             onClick={() => router.back()}
-            asChild
             variant="outline"
             className="flex items-center justify-center"
           >
