@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useMemo } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -9,56 +9,66 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
-import MediaCard from "./media-card"
-import { Movie, Tv } from "@/services/tmdbApi"
-import { Skeleton } from "@/components/ui/skeleton"
+} from "@/components/ui/pagination";
+import MediaCard from "./media-card";
+import { Movie, Tv } from "@/app/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MediaListProps {
-  media?: (Movie | Tv)[]
-  totalPages: number
-  currentPage: number
-  onPageChange: (page: number) => void
-  mediaType: "movie" | "tv"
-  isLoading?: boolean
-  error?: string
+  media?: (Movie | Tv)[];
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  mediaType: "movie" | "tv";
+  isLoading?: boolean;
+  error?: string;
 }
 
 const MediaList: React.FC<MediaListProps> = React.memo(
-  ({ media, totalPages, currentPage, onPageChange, mediaType, isLoading, error }) => {
+  ({
+    media,
+    totalPages,
+    currentPage,
+    onPageChange,
+    mediaType,
+    isLoading,
+    error,
+  }) => {
     const handlePageChange = useCallback(
       (pageNumber: number) => {
         if (pageNumber >= 1 && pageNumber <= totalPages) {
-          onPageChange(pageNumber)
+          onPageChange(pageNumber);
         }
       },
       [onPageChange, totalPages]
-    )
+    );
 
     const paginationItems = useMemo(() => {
-      const items = []
-      const maxVisiblePages = 5
-      const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2)
+      const items = [];
+      const maxVisiblePages = 5;
+      const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2);
 
-      let startPage = Math.max(1, currentPage - halfMaxVisiblePages)
-      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+      let startPage = Math.max(1, currentPage - halfMaxVisiblePages);
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
       if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1)
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
       }
 
       if (startPage > 1) {
         items.push(
           <PaginationItem key="first">
-            <PaginationLink onClick={() => handlePageChange(1)}>1</PaginationLink>
+            <PaginationLink onClick={() => handlePageChange(1)}>
+              1
+            </PaginationLink>
           </PaginationItem>
-        )
+        );
         if (startPage > 2) {
           items.push(
             <PaginationItem key="ellipsis-start">
               <PaginationEllipsis />
             </PaginationItem>
-          )
+          );
         }
       }
 
@@ -72,7 +82,7 @@ const MediaList: React.FC<MediaListProps> = React.memo(
               {i}
             </PaginationLink>
           </PaginationItem>
-        )
+        );
       }
 
       if (endPage < totalPages) {
@@ -81,7 +91,7 @@ const MediaList: React.FC<MediaListProps> = React.memo(
             <PaginationItem key="ellipsis-end">
               <PaginationEllipsis />
             </PaginationItem>
-          )
+          );
         }
         items.push(
           <PaginationItem key="last">
@@ -89,11 +99,11 @@ const MediaList: React.FC<MediaListProps> = React.memo(
               {totalPages}
             </PaginationLink>
           </PaginationItem>
-        )
+        );
       }
 
-      return items
-    }, [currentPage, totalPages, handlePageChange])
+      return items;
+    }, [currentPage, totalPages, handlePageChange]);
 
     if (isLoading) {
       return (
@@ -102,15 +112,15 @@ const MediaList: React.FC<MediaListProps> = React.memo(
             <Skeleton key={index} className="h-[375px] w-[250px]" />
           ))}
         </div>
-      )
+      );
     }
 
     if (error) {
-      return <div className="text-center py-8 text-red-500">{error}</div>
+      return <div className="text-center py-8 text-red-500">{error}</div>;
     }
 
     if (!media || media.length === 0) {
-      return <div className="text-center py-8">No media found.</div>
+      return <div className="text-center py-8">No media found.</div>;
     }
 
     return (
@@ -138,10 +148,10 @@ const MediaList: React.FC<MediaListProps> = React.memo(
           </PaginationContent>
         </Pagination>
       </div>
-    )
+    );
   }
-)
+);
 
-MediaList.displayName = "MediaList"
+MediaList.displayName = "MediaList";
 
-export default MediaList
+export default MediaList;

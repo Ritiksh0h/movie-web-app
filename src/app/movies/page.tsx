@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState, useEffect, useCallback } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  fetchTrendingMovies,
+  fetchTrending,
   fetchNowPlayingMovies,
-  fetchPopularMovies,
-  fetchTopMovies,
+  fetchPopular,
+  fetchTop,
   fetchUpcomingMovies,
-  Movie,
-} from "@/services/tmdbApi"
-import MediaList from "@/components/media-list"
-import { motion } from "framer-motion"
+} from "@/services/tmdbApi";
+import MediaList from "@/components/media-list";
+import { motion } from "framer-motion";
+import { Movie } from "../types";
 
 const categories = [
   { value: "trending", label: "Trending" },
@@ -19,62 +19,62 @@ const categories = [
   { value: "popular", label: "Popular" },
   { value: "topRated", label: "Top Rated" },
   { value: "upcoming", label: "Upcoming" },
-]
+];
 
 export default function MoviesPage() {
-  const [category, setCategory] = useState("trending")
-  const [page, setPage] = useState(1)
-  const [movies, setMovies] = useState<Movie[]>([])
-  const [totalPages, setTotalPages] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [category, setCategory] = useState("trending");
+  const [page, setPage] = useState(1);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchMovies = useCallback(async (category: string, page: number) => {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
     try {
-      let result
+      let result;
       switch (category) {
         case "trending":
-          result = await fetchTrendingMovies("day", page)
-          break
+          result = await fetchTrending("day", "movie", page);
+          break;
         case "nowPlaying":
-          result = await fetchNowPlayingMovies(page)
-          break
+          result = await fetchNowPlayingMovies(page);
+          break;
         case "popular":
-          result = await fetchPopularMovies(page)
-          break
+          result = await fetchPopular("movie", page);
+          break;
         case "topRated":
-          result = await fetchTopMovies(page)
-          break
+          result = await fetchTop("movie", page);
+          break;
         case "upcoming":
-          result = await fetchUpcomingMovies(page)
-          break
+          result = await fetchUpcomingMovies(page);
+          break;
         default:
-          throw new Error("Invalid category")
+          throw new Error("Invalid category");
       }
-      setMovies(result.results)
-      setTotalPages(result.total_pages)
+      setMovies(result.results);
+      setTotalPages(result.total_pages);
     } catch (error) {
-      console.error("Error fetching movies:", error)
-      setError("Failed to fetch movies. Please try again later.")
+      console.error("Error fetching movies:", error);
+      setError("Failed to fetch movies. Please try again later.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    fetchMovies(category, page)
-  }, [category, page, fetchMovies])
+    fetchMovies(category, page);
+  }, [category, page, fetchMovies]);
 
   const handleCategoryChange = useCallback((newCategory: string) => {
-    setCategory(newCategory)
-    setPage(1)
-  }, [])
+    setCategory(newCategory);
+    setPage(1);
+  }, []);
 
   const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [])
+    setPage(newPage);
+  }, []);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
@@ -123,5 +123,5 @@ export default function MoviesPage() {
         </Tabs>
       </div>
     </main>
-  )
+  );
 }

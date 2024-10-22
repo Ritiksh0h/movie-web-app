@@ -1,7 +1,8 @@
 import { Calendar } from "lucide-react";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
-import { Movie, getGenreNames, getImageUrl } from "@/services/tmdbApi";
+import { getGenreNames, getImageUrl } from "@/services/tmdbApi";
+import { Movie } from "@/app/types";
 
 interface UpcomingMoviesProps {
   movies: Movie[];
@@ -11,7 +12,7 @@ export const UpcomingMovies: React.FC<UpcomingMoviesProps> = ({ movies }) => {
   return (
     <section className="py-8 container mx-auto px-4">
       <h2 className="text-2xl font-bold mb-4">Coming Soon</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2">
         {Array.isArray(movies) && movies.length > 0 ? (
           movies.map((movie) => (
             <div key={movie.id} className="relative">

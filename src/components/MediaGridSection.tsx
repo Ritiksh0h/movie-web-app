@@ -1,63 +1,6 @@
-// "use client"
-
-// import { Movie, Tv } from "@/services/tmdbApi"
-// import MediaCard from "./media-card"
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselPrevious,
-//   CarouselNext,
-// } from "@/components/ui/carousel"
-
-// interface MediaGridSectionProps {
-//   title: string
-//   media: (Movie | Tv)[]
-//   mediaType: "movie" | "tv"
-// }
-
-// export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
-//   title,
-//   media,
-//   mediaType,
-// }) => {
-//   return (
-//     <section className="py-8 container mx-auto px-4">
-//       <h2 className="text-2xl font-bold mb-4">{title}</h2>
-//       <div className="relative">
-//         <Carousel
-//           opts={{
-//             align: "start",
-//             loop: true,
-//             slidesToScroll: 1,
-//           }}
-//         >
-//           <CarouselContent>
-//             {media && media.length > 0 ? (
-//               media.map((item) => (
-//                 <CarouselItem
-//                   key={item.id}
-//                   className="pl-2 md:basis-1/3 lg:basis-1/5"
-//                 >
-//                   <MediaCard item={item} type={mediaType} />
-//                 </CarouselItem>
-//               ))
-//             ) : (
-//               <p className="col-span-full text-center text-muted-foreground">
-//                 No {mediaType === "movie" ? "movies" : "TV shows"} available.
-//               </p>
-//             )}
-//           </CarouselContent>
-//           <CarouselPrevious className="hidden md:flex" />
-//           <CarouselNext className="hidden md:flex" />
-//         </Carousel>
-//       </div>
-//     </section>
-//   )
-// }
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { Movie, Tv } from "@/services/tmdbApi";
+import { Movie, Tv } from "@/app/types";
 import MediaCard from "./media-card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -65,13 +8,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface MediaGridSectionProps {
   title: string;
   media: (Movie | Tv)[];
-  mediaType: "movie" | "tv";
+  mediaType?: "movie" | "tv";
+  contentMediaType: boolean;
 }
 
 export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
   title,
   media,
   mediaType,
+  contentMediaType,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [translateX, setTranslateX] = useState(0);
@@ -131,7 +76,11 @@ export const MediaGridSection: React.FC<MediaGridSectionProps> = ({
           {media && media.length > 0 ? (
             media.map((item) => (
               <div key={item.id} className="w-1/5 flex-shrink-0 px-2">
-                <MediaCard item={item} type={mediaType} />
+                {contentMediaType}
+                <MediaCard
+                  item={item}
+                  type={contentMediaType ? media.media_type : mediaType}
+                />
               </div>
             ))
           ) : (

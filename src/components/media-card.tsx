@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Info,
   Play,
   Plus,
   ThumbsDown,
@@ -26,6 +27,7 @@ import {
   fetchMediaTrailer,
   getGenreNames,
 } from "@/services/tmdbApi";
+import Link from "next/link";
 
 interface MediaItem {
   id: number;
@@ -179,6 +181,14 @@ export default function MediaCard({ item, type }: MediaCardProps) {
               Play
             </Button>
             <div className="flex gap-2">
+              <Button size={"icon"} variant="ghost">
+                <Link
+                  href={`/${type}/${item.id}`}
+                  className="flex gap-2 items-center"
+                >
+                  <Info className="h-4 w-4" />
+                </Link>
+              </Button>
               <Button variant="ghost" size="icon" aria-label="Add to list">
                 <Plus className="h-4 w-4" />
               </Button>

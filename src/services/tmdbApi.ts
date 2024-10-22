@@ -1,191 +1,168 @@
 // services/tmdbApi.ts
-
+import {
+  Movie,
+  MovieResponse,
+  TvResponse,
+  SearchType,
+  ExternalSource,
+  MultiSearchResult,
+  IdSearchResult,
+  MovieDetailsProps,
+  genres,
+} from "@/app/types";
 const API_KEY = "daa8c89ea5a3b2f19e6cd81aacc2f71f";
 const BASE_URL = "https://api.themoviedb.org/3";
 
-// const options = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYWE4Yzg5ZWE1YTNiMmYxOWU2Y2Q4MWFhY2MyZjcxZiIsIm5iZiI6MTcyODk5NjA1MS45MjQ5NjMsInN1YiI6IjYyMGNlMDQyZDk0MDM1MDA2YTY1YjFiYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ydm3tV91UIFr4210QACupbj1xtHwVg8hO4G5hocF6Iw",
-//   },
-// };
-
-const genres = [
-  { id: 28, name: "Action" },
-  { id: 12, name: "Adventure" },
-  { id: 16, name: "Animation" },
-  { id: 35, name: "Comedy" },
-  { id: 80, name: "Crime" },
-  { id: 99, name: "Documentary" },
-  { id: 18, name: "Drama" },
-  { id: 10751, name: "Family" },
-  { id: 14, name: "Fantasy" },
-  { id: 36, name: "History" },
-  { id: 27, name: "Horror" },
-  { id: 10402, name: "Music" },
-  { id: 9648, name: "Mystery" },
-  { id: 10749, name: "Romance" },
-  { id: 878, name: "Sci-Fi" },
-  { id: 10770, name: "TV Movie" },
-  { id: 53, name: "Thriller" },
-  { id: 10752, name: "War" },
-  { id: 37, name: "Western" },
-];
-
-export interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  release_date: string;
-  vote_average: number;
-  overview: string;
-  genre_ids: number[];
-}
-
-export interface Tv {
-  adult: false;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  origin_country: string[];
-  original_language: string;
-  original_name: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  first_air_date: string;
-  name: string;
-  vote_average: number;
-  vote_count: number;
-}
-
-interface MovieResponse {
-  results: Movie[];
-  total_pages: number;
-  page: number;
-}
-
-interface TvResponse {
-  results: Tv[];
-  total_pages: number;
-  page: number;
-}
-
-export const fetchPopularMovies = async (
+export const fetchPopular = async (
+  media_type: "movie" | "tv",
   page: number = 1
-): Promise<MovieResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
+): Promise<MovieResponse | TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/popular?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
 
-export const fetchTopMovies = async (
-  page: number = 1
-): Promise<MovieResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch popular ${media_type}s, status: ${response.status}`
+      );
+    }
 
-export const fetchTrendingMovies = async (
-  time_window: "day" | "week" = "day",
-  page: number = 1
-): Promise<MovieResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/trending/movie/${time_window}?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch trending movies");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching popular:", error);
+    return null;
   }
+};
 
-  return await response.json();
+export const fetchTop = async (
+  media_type: "movie" | "tv",
+  page: number = 1
+): Promise<MovieResponse | TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch top-rated ${media_type}s, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching top-rated:", error);
+    return null;
+  }
+};
+
+export const fetchTrending = async (
+  time_window: "day" | "week" = "day",
+  media_type: "movie" | "tv",
+  page: number = 1
+): Promise<MovieResponse | TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/trending/${media_type}/${time_window}?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch trending ${media_type}s, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching trending:", error);
+    return null;
+  }
 };
 
 export const fetchNowPlayingMovies = async (
   page: number = 1
-): Promise<MovieResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
+): Promise<MovieResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch now playing movies, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching now playing movies:", error);
+    return null;
+  }
 };
 
 export const fetchUpcomingMovies = async (
   page: number = 1
-): Promise<MovieResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
+): Promise<MovieResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
 
-export const fetchPopularTv = async (page: number = 1): Promise<TvResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch upcoming movies, status: ${response.status}`
+      );
+    }
 
-export const fetchTopTv = async (page: number = 1): Promise<TvResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
-export const fetchOnAirTv = async (page: number = 1): Promise<TvResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-  return await response.json();
-};
-
-export const fetchTrendingTv = async (
-  time_window: "day" | "week" = "day",
-  page: number = 1
-): Promise<TvResponse> => {
-  const response = await fetch(
-    `${BASE_URL}/trending/tv/${time_window}?api_key=${API_KEY}&language=en-US&page=${page}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch trending movies");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching upcoming movies:", error);
+    return null;
   }
-
-  return await response.json();
 };
 
-export const fetchMovieDetails = async (movieId: number): Promise<Movie> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`
-  );
-  return await response.json();
+export const fetchOnAirTv = async (
+  page: number = 1
+): Promise<TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch on-air TV shows, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching on-air TV shows:", error);
+    return null;
+  }
 };
 
-export const fetchMovieTrailer = async (
-  movieId: number
-): Promise<string | null> => {
-  const response = await fetch(
-    `${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
-  );
-  const data = await response.json();
-  const trailer = data.results.find((video: any) => video.type === "Trailer");
-  return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null;
-};
-export const fetchTvShowTrailer = async (
-  movieId: number
-): Promise<string | null> => {
-  const response = await fetch(
-    `${BASE_URL}/tv/${movieId}/videos?api_key=${API_KEY}&language=en-US`
-  );
-  const data = await response.json();
-  const trailer = data.results.find((video: any) => video.type === "Trailer");
-  return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null;
+export const fetchDetails = async (
+  movieId: number,
+  media_type: "movie" | "tv"
+): Promise<Movie | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/${movieId}?api_key=${API_KEY}&language=en-US`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${media_type} details, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching ${media_type} details:`, error);
+    return null;
+  }
 };
 
 export const fetchMediaTrailer = async (
@@ -198,7 +175,9 @@ export const fetchMediaTrailer = async (
     );
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(
+        `Failed to fetch ${mediaType} trailer, status: ${response.status}`
+      );
     }
 
     const data = await response.json();
@@ -209,6 +188,120 @@ export const fetchMediaTrailer = async (
     return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null;
   } catch (error) {
     console.error(`Error fetching ${mediaType} trailer:`, error);
+    return null;
+  }
+};
+
+export const fetchById = async (
+  id: number,
+  media_type: "movie" | "tv"
+): Promise<MovieDetailsProps | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/${id}?api_key=${API_KEY}&append_to_response=videos%2Cimages&language=en-US`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${media_type} by ID, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching ${media_type} by ID:${id}`, error);
+    return null;
+  }
+};
+
+export const fetchRecommendations = async (
+  id: number,
+  media_type: "movie" | "tv",
+  page: number = 1
+): Promise<MovieResponse | TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${media_type} recommendations, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching ${media_type} recommendations:`, error);
+    return null;
+  }
+};
+
+export const fetchSimilar = async (
+  id: number,
+  media_type: "movie" | "tv",
+  page: number = 1
+): Promise<MovieResponse | TvResponse | null> => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${media_type}/${id}/similar?api_key=${API_KEY}&language=en-US&page=${page}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch similar ${media_type}s, status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching similar ${media_type}s:`, error);
+    return null;
+  }
+};
+
+export const searchTMDB = async (
+  query: string,
+  searchType: SearchType = "multi"
+): Promise<MultiSearchResult | IdSearchResult | null> => {
+  try {
+    let endpoint: string;
+    let params: Record<string, string>;
+
+    if (searchType === "id") {
+      const [externalSource, externalId] = query.split(":") as [
+        ExternalSource,
+        string
+      ];
+      endpoint = `${BASE_URL}/find/${externalId}`;
+      params = {
+        api_key: API_KEY!,
+        external_source: externalSource,
+        language: "en-US",
+      };
+    } else {
+      endpoint = `${BASE_URL}/search/multi`;
+      params = {
+        api_key: API_KEY!,
+        query,
+        include_adult: "false",
+        language: "en-US",
+        page: "1",
+      };
+    }
+
+    const url = new URL(endpoint);
+    url.search = new URLSearchParams(params).toString();
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+      throw new Error(`Failed to search TMDB, status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error searching TMDB:", error);
     return null;
   }
 };

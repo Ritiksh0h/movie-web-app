@@ -5,7 +5,13 @@ const nextConfig = {images: {
         protocol: 'https',
         hostname: 'image.tmdb.org',
         port: '',
-        pathname: '**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },};

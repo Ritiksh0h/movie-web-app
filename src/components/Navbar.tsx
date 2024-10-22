@@ -1,15 +1,16 @@
 "use client"
 import Link from "next/link";
-import { Search, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserNav } from "./UserNav";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import SearchPopup from "./search";
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "TV Shows", href: "/tv-shows" },
-  { name: "Movies", href: "/movies" },
+  { name: "Movies", href: "/movie" },
   { name: "New & Popular", href: "/new-and-popular" },
   { name: "My List", href: "/my-list" },
 ];
@@ -40,9 +41,7 @@ export const Navbar: React.FC = () => {
           </nav>
         </div>
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="icon" className="hover:bg-transparent">
-            <Search className="h-6 w-6 text-white" />
-          </Button>
+          <SearchPopup/>
           <Button variant="ghost" size="icon" className="hover:bg-transparent">
             <Bell className="h-6 w-6 text-white" />
           </Button>

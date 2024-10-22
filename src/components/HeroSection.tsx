@@ -8,7 +8,7 @@ import {
   PauseCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Movie, fetchMovieTrailer, getImageUrl } from "../services/tmdbApi";
+import { fetchMediaTrailer, getImageUrl } from "../services/tmdbApi";
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +17,8 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { useEffect, useRef, useState } from "react";
+import { Movie } from "@/app/types";
+import Link from "next/link";
 
 // ?height=800&width=1600&text=Inception
 
@@ -25,13 +27,11 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ movies }) => {
-  
   return (
     <Carousel
       opts={{
         align: "start",
         loop: true,
-
       }}
     >
       <CarouselContent>
@@ -57,7 +57,7 @@ const MovieCarouselCard: React.FC<MovieCarouselCardPropt> = ({ movie }) => {
 
   useEffect(() => {
     if (!trailerUrl) {
-      fetchMovieTrailer(movie.id).then(setTrailerUrl);
+      fetchMediaTrailer(movie.id, "movie").then(setTrailerUrl);
     }
   }, [movie.id, trailerUrl]);
 
@@ -129,8 +129,10 @@ const MovieCarouselCard: React.FC<MovieCarouselCardPropt> = ({ movie }) => {
               size="lg"
               variant="secondary"
             >
-              <Info size={28} className="mr-2" />
-              More Info
+              <Link href={`/movies/${movie.id}`} className="flex gap-2 items-center" >
+                <Info size={28} className="mr-2" />
+                More Info
+              </Link>
             </Button>
           </div>
         </div>

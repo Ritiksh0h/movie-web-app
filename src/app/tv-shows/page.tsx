@@ -1,75 +1,75 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState, useEffect, useCallback } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  fetchTrendingTv,
+  fetchTrending,
   fetchOnAirTv,
-  fetchPopularTv,
-  fetchTopTv,
-  Tv,
-} from "@/services/tmdbApi"
-import { motion } from "framer-motion"
-import MediaList from "@/components/media-list"
+  fetchPopular,
+  fetchTop,
+} from "@/services/tmdbApi";
+import { motion } from "framer-motion";
+import MediaList from "@/components/media-list";
+import { Tv } from "../types";
 
 const categories = [
   { value: "trending", label: "Trending" },
   { value: "onAir", label: "On the Air" },
   { value: "popular", label: "Popular" },
   { value: "topRated", label: "Top Rated" },
-]
+];
 
 export default function TvPage() {
-  const [category, setCategory] = useState("trending")
-  const [page, setPage] = useState(1)
-  const [tv, setTv] = useState<Tv[]>([])
-  const [totalPages, setTotalPages] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [category, setCategory] = useState("trending");
+  const [page, setPage] = useState(1);
+  const [tv, setTv] = useState<Tv[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTv = useCallback(async (category: string, page: number) => {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
     try {
-      let result
+      let result;
       switch (category) {
         case "trending":
-          result = await fetchTrendingTv("day", page)
-          break
+          result = await fetchTrending("day", "tv", page);
+          break;
         case "onAir":
-          result = await fetchOnAirTv(page)
-          break
+          result = await fetchOnAirTv(page);
+          break;
         case "popular":
-          result = await fetchPopularTv(page)
-          break
+          result = await fetchPopular("tv", page);
+          break;
         case "topRated":
-          result = await fetchTopTv(page)
-          break
+          result = await fetchTop("tv", page);
+          break;
         default:
-          throw new Error("Invalid category")
+          throw new Error("Invalid category");
       }
-      setTv(result.results)
-      setTotalPages(result.total_pages)
+      setTv(result.results);
+      setTotalPages(result.total_pages);
     } catch (error) {
-      console.error("Error fetching TV shows:", error)
-      setError("Failed to fetch TV shows. Please try again later.")
+      console.error("Error fetching TV shows:", error);
+      setError("Failed to fetch TV shows. Please try again later.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    fetchTv(category, page)
-  }, [category, page, fetchTv])
+    fetchTv(category, page);
+  }, [category, page, fetchTv]);
 
   const handleCategoryChange = useCallback((newCategory: string) => {
-    setCategory(newCategory)
-    setPage(1)
-  }, [])
+    setCategory(newCategory);
+    setPage(1);
+  }, []);
 
   const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [])
+    setPage(newPage);
+  }, []);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
@@ -118,5 +118,5 @@ export default function TvPage() {
         </Tabs>
       </div>
     </main>
-  )
+  );
 }
